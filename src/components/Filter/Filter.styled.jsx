@@ -6,6 +6,21 @@ export const FilterLabel = styled.label`
 `;
 
 export const FilterInput = styled.input`
-    width: 200px;
+    border: none;
+    border-bottom: 2px solid black;
+    border-radius: 20px;
     margin-top: 10px;
+    margin-bottom: 20px;
+    width: 290px;
+
+    padding: 5px 20px;
+
+    margin-bottom: 25px;
+
+    background-color: #1b9395;
+    transition: 250ms linear all;
+    &:focus, :hover {
+        background-color: #b8d1ce;
+        outline: none;
+    }
 `;

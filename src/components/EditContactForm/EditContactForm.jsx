@@ -1,43 +1,41 @@
 import { Formik, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import { FormWrapper, Label, InputForm } from "./ContactForm.styled";
-import { useAddContactMutation, useGetContactsQuery } from "redux/contactsAPI";
+import { FormWrapper, Label, InputForm } from "./EditContactForm.styled";
+import { useEditContactMutation, useGetContactsQuery } from "redux/contactsAPI";
 import { toast } from 'react-toastify';
 import { Btn } from "components/Buttons/Buttons";
-
+import { useSelector, useDispatch } from "react-redux";
+import { getIdforEditModal, setIdforEditModal } from "redux/modalSlice";
 
 const schema = Yup.object().shape({
     name: Yup.string().matches(/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/, `Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan`).required(),
     number: Yup.string().matches(/\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/, 'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +').required(),
 });
 
-export const ContactForm = () => {
-    const [addContact, {isLoading}] = useAddContactMutation();
+export const EditContactForm = () => {
+    const dispatch = useDispatch();
+    const id = useSelector(getIdforEditModal);
     const {data: contacts} = useGetContactsQuery();
+    const [editContact] = useEditContactMutation();
+    const contactToEdit = contacts.find(a => a.id === id);
+
     const initialValues = {
-        name: '',
-        number: '',
+        name: contactToEdit.name,
+        number: contactToEdit.number,
     };
-    
+
     const handleSubmit = async (data, {resetForm}) => {
-        const isDuplicate = contacts.map(a => a.name).includes(data.name);
-        if (isDuplicate) {
-        toast.warning(`${data.name} is already in your contacts`)
-        return
-        };
-        
-        const response = await addContact(data);
-        if(response.data?.name === data.name) {
-            toast(`${data.name} added to your contacts successfully`)
-        };
+        const updatedContact = [id,data];
+        await editContact(updatedContact);
+        toast.success(`${data.name} edited successfully`);
+        await dispatch(setIdforEditModal(''));
         resetForm();
     };
 
     return (
         <Formik initialValues={initialValues} 
         validationSchema={schema} 
-        onSubmit={handleSubmit}> 
-        
+        onSubmit={handleSubmit}>   
             <FormWrapper>
                 <Label htmlFor="name"> Name</Label>
                     <InputForm type="text" name="name"/>
@@ -45,7 +43,7 @@ export const ContactForm = () => {
                 <Label htmlFor="number"> Number</Label>
                     <InputForm type='tel' name="number"/>
                     <ErrorMessage name='number' component='div' />
-                <Btn type="submit" disabled={isLoading} text='Add contact'/>
+                <Btn type="submit" text='Confirm edit'/>
             </FormWrapper>
         </Formik>
     )

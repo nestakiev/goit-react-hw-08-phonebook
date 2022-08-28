@@ -34,4 +34,5 @@ export const InputForm = styled(Field)`
 
 export const Label = styled.label`
   font-weight: 700;
+  color: #b8d1ce; 
 `;
