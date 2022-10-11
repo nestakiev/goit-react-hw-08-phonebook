@@ -5,12 +5,12 @@ import { useDispatch } from "react-redux";
 import { Btn } from "components/Buttons/Buttons";
 
 export const UserMenu = () => {
-    const email = useSelector(state => state.auth.user.email);
+    const email = useSelector(state => state.auth?.user?.email);
     const dispatch = useDispatch();
     
     return (
         <Container>
-        <UserInfo>{email}</UserInfo>
+        {email && <UserInfo>{email}</UserInfo>}
         <Btn type='button' onClick={() => dispatch(authAPI.logOut())} text="Logout"/>
         </Container>
     )
