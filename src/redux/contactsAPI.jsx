@@ -21,7 +21,7 @@ const axiosBaseQuery =
 export const contactsApi = createApi({
     reducerPath: 'contacts',
     baseQuery: axiosBaseQuery({
-        baseUrl: 'https://connections-api.herokuapp.com/',
+        baseUrl: 'https://phonebook-backend-nodejs.herokuapp.com/api/',
     }),
     tagTypes: ['Contacts'],
     endpoints: builder => ({
@@ -49,7 +49,7 @@ export const contactsApi = createApi({
         editContact: builder.mutation({
             query: (args) => ({
                url: `contacts/${args[0]}`,
-               method: 'PATCH',
+               method: 'PUT',
                data: args[1],
           }),
           invalidatesTags: ['Contacts'],

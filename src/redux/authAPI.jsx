@@ -3,7 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from 'react-toastify';
 
 
-axios.defaults.baseURL = "https://connections-api.herokuapp.com";
+axios.defaults.baseURL = "https://phonebook-backend-nodejs.herokuapp.com/api";
 
 const token = {
     set(token) {
@@ -17,7 +17,7 @@ const token = {
 
 const singUp = createAsyncThunk('/auth/signup', async credentials => {
     try {
-        const { data } = await axios.post('/users/signup', credentials);
+        const { data } = await axios.post('/users/register', credentials);
         token.set(data.token);
         toast.success(`${data.user.name} successfully register. Enjoy!`)
         return data;
