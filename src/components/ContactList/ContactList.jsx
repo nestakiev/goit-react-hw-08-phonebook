@@ -24,8 +24,8 @@ export const ContactList = () => {
     {isAnyContactsToShow &&
         <Ul>
             { filteredContacts.map( contact => { 
-            const {id, name, number} = contact;
-            return <ContactListItem key={id} id={id} name={name} number={number}/>;})
+            const {_id, name, phone} = contact;
+            return <ContactListItem key={_id} id={_id} name={name} phone={phone}/>;})
             }
         </Ul>}
     {isNoMatches && <p>You dont have any contacts or matches</p>}

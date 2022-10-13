@@ -6,7 +6,7 @@ import { ContactBtn } from "components/Buttons/Buttons";
 import { useDispatch } from "react-redux";
 import { setIdforEditModal } from "redux/modalSlice";
 
-export const ContactListItem = ({id, name, number}) => {
+export const ContactListItem = ({id, name, phone}) => {
     const [deleteContact, {isLoading, isSuccess}] = useDeleteContactMutation();
     const dispatch = useDispatch();
     if(isSuccess) {
@@ -17,7 +17,7 @@ export const ContactListItem = ({id, name, number}) => {
     <Li>
         <div>
         <P><UserIcon/>{name}</P>
-        <P><PhoneIcon/>{number}</P>
+        <P><PhoneIcon/>{phone}</P>
         </div>
 
         <ButtonsContainer>
@@ -32,5 +32,5 @@ export const ContactListItem = ({id, name, number}) => {
 ContactListItem.propTypes = {
         id: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        number: PropTypes.node.isRequired,
+        phone: PropTypes.node.isRequired,
     };

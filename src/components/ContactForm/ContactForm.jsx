@@ -8,7 +8,7 @@ import { Btn } from "components/Buttons/Buttons";
 
 const schema = Yup.object().shape({
     name: Yup.string().matches(/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/, `Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan`).required(),
-    number: Yup.string().matches(/\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/, 'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +').required(),
+    phone: Yup.string().matches(/\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/, 'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +').required(),
 });
 
 export const ContactForm = () => {
@@ -16,7 +16,7 @@ export const ContactForm = () => {
     const {data: contacts} = useGetContactsQuery();
     const initialValues = {
         name: '',
-        number: '',
+        phone: '',
     };
     
     const handleSubmit = async (data, {resetForm}) => {
@@ -43,7 +43,7 @@ export const ContactForm = () => {
                     <InputForm type="text" name="name"/>
                     <ErrorMessage name='name' component='div' />
                 <Label htmlFor="number"> Number</Label>
-                    <InputForm type='tel' name="number"/>
+                    <InputForm type='tel' name="phone"/>
                     <ErrorMessage name='number' component='div' />
                 <Btn type="submit" disabled={isLoading} text='Add contact'/>
             </FormWrapper>

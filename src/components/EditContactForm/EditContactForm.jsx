@@ -9,7 +9,7 @@ import { getIdforEditModal, setIdforEditModal } from "redux/modalSlice";
 
 const schema = Yup.object().shape({
     name: Yup.string().matches(/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/, `Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan`).required(),
-    number: Yup.string().matches(/\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/, 'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +').required(),
+    phone: Yup.string().matches(/\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/, 'Phone number must be digits and can contain spaces, dashes, parentheses and can start with +').required(),
 });
 
 export const EditContactForm = () => {
@@ -17,11 +17,11 @@ export const EditContactForm = () => {
     const id = useSelector(getIdforEditModal);
     const {data: contacts} = useGetContactsQuery();
     const [editContact] = useEditContactMutation();
-    const contactToEdit = contacts.find(a => a.id === id);
+    const contactToEdit = contacts.find(a => a._id === id);
 
     const initialValues = {
         name: contactToEdit.name,
-        number: contactToEdit.number,
+        phone: contactToEdit.phone,
     };
 
     const handleSubmit = async (data, {resetForm}) => {
@@ -40,9 +40,9 @@ export const EditContactForm = () => {
                 <Label htmlFor="name"> Name</Label>
                     <InputForm type="text" name="name"/>
                     <ErrorMessage name='name' component='div' />
-                <Label htmlFor="number"> Number</Label>
-                    <InputForm type='tel' name="number"/>
-                    <ErrorMessage name='number' component='div' />
+                <Label htmlFor="phone"> Number</Label>
+                    <InputForm type='tel' name="phone"/>
+                    <ErrorMessage name='phone' component='div' />
                 <Btn type="submit" text='Confirm edit'/>
             </FormWrapper>
         </Formik>
